@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+        postgres:
+                container_name: postgres
+                image: postgres:12
+                restart: always
+                environment:
+                        POSTGRES_USER: scm
+                        POSTGRES_HOST_AUTH_METHOD: trust
+        cloudera-manager:
+                container_name: cloudera-manager
+                build: .
+                restart: always
+                ports:
+                        - 7180:7180
