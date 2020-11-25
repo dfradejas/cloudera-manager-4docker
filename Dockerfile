@@ -1,8 +1,6 @@
-FROM centos:7
+FROM local/c7-systemd
 
-RUN yum install -y wget openssh-server openssh-clients
-
-RUN ssh-keygen -A
+RUN yum install -y wget openssh-server openssh-clients sudo
 
 RUN wget https://archive.cloudera.com/cm6/6.3.1/redhat7/yum/cloudera-manager.repo -P /etc/yum.repos.d/ && \
     rpm --import https://archive.cloudera.com/cm6/6.3.1/redhat7/yum/RPM-GPG-KEY-cloudera
@@ -13,13 +11,10 @@ RUN yum install -y cloudera-manager-daemons cloudera-manager-agent cloudera-mana
 
 RUN pip3 install psycopg2==2.7.5 --ignore-installed
 
-RUN service sshd enable
+RUN systemctl enable sshd.service
 
 USER cloudera-scm
 
-ENV CLOUDERA_ROOT=/opt/cloudera
+COPY start-script.sh /start-script.sh
 
-ENV CMF_DEFAULTS=/etc/default/cloudera-scm-server
-
-CMD /opt/cloudera/cm/schema/scm_prepare_database.sh postgresql -h postgres --scm-host cloudera-manager scm scm; /opt/cloudera/cm/bin/cm-server 
-
+CMD /start-script.sh 
