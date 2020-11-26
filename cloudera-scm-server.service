@@ -1,0 +1,20 @@
+[Unit]
+Description=Cloudera CM Server Service
+After=network-online.target
+Wants=network-online.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+User=cloudera-scm
+Group=cloudera-scm
+Type=simple
+PermissionsStartOnly=true
+Environment=CLOUDERA_ROOT=/opt/cloudera
+Environment=CMF_DEFAULTS=/etc/default/cloudera-scm-server
+ExecStartPre=/opt/cloudera/cm/bin/cm-server-pre
+ExecStart=/init-script.sh && /opt/cloudera/cm/bin/cm-server
+Restart=on-failure
+StartLimitInterval=2min
+StartLimitBurst=5

@@ -3,16 +3,30 @@ version: "3"
 services:
         postgres:
                 container_name: postgres
-                image: postgres:12
+                hostname: postgres
+                build: postgres/
                 restart: always
                 environment:
                         POSTGRES_USER: scm
                         POSTGRES_HOST_AUTH_METHOD: trust
         cloudera-manager:
                 container_name: cloudera-manager
+                hostname: cloudera-manager
                 build: .
                 restart: always
                 ports:
                         - 7180:7180
+                        - 7182:7182
+                        - 8088:8088
+                        - 11000:11000
+                        - 2181:2181
                 volumes:
                         - /sys/fs/cgroup:/sys/fs/cgroup
+                privileged: true
+                environment:
+                        container: docker
+        cloudera-repo:
+                container_name: cloudera-repo
+                hostname: cloudera-repo
+                build: cloudera-repo/
+                restart: always

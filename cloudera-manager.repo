@@ -1,0 +1,5 @@
+[cloudera-repo]
+name=cloudera-repo
+baseurl=http://cloudera-repo/cm6/6.3.1
+enabled=1
+gpgcheck=0
