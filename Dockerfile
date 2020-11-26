@@ -47,6 +47,6 @@ COPY init-script.sh /init-script.sh
 
 COPY cloudera-scm-server.service /usr/lib/systemd/system/
 
-RUN systemctl daemon-reload && systemctl enable cloudera-scm-server
+RUN systemctl enable cloudera-scm-server
 
 ENTRYPOINT ["/usr/sbin/init"]
